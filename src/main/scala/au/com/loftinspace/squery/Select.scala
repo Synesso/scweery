@@ -1,21 +1,6 @@
 package au.com.loftinspace.squery
 
-
 import java.sql.{Statement, DriverManager, Connection => JavaDBConnection, ResultSet}
-
-//class Select1[+ T1](v1: T1) extends Tuple1[T1]
-//class Select2[+ T1, + T2](v1: T1, v2: T2) extends Tuple1[T1,T2]
-//class Select3[+ T1, + T2, + T3](v1: T1, v2: T2, v3: T3) extends Tuple1[T1,T2,T3]
-//
-//object Select {
-//  def apply[A >: AnyRef](query: String): Seq[A] = {
-//    new Select1("a")
-//  }
-//}
-//
-//class Results(rs: ResultSet)
-//
-
 
 object Connection {
  
@@ -26,7 +11,8 @@ object Connection {
     def query(sql: String)(b: List[String] => Unit) = {
       executeQuery(sql)
       while (rs.map(_.next).getOrElse(false)) {
-        val l = rs.get.getString(1) :: rs.get.getInt(2).toString :: Nil
+        def getString(acc: List[String], i: Int): List[String] = if (i > 0) getString(rs.get.getString(i) :: acc, i - 1) else acc
+        val l = getString(Nil, rs.get.getMetaData.getColumnCount)
         b(l)
       }
       close
@@ -36,12 +22,8 @@ object Connection {
       rs = stmt.map(_.executeQuery(sql))
     }
     private def close = {
-      println("rs? " + rs.get.isClosed)
       rs.foreach(_.close)
-      println("rs? " + rs.get.isClosed)
-      println("stmt? " + stmt.get.isClosed)
       stmt.foreach(_.close)
-      println("stmt? " + stmt.get.isClosed)
     }
   }
 
@@ -49,6 +31,8 @@ object Connection {
     val context = new Context123(c)
     try {
       b(context)
+    } catch {
+      case e => e.printStackTrace
     } finally {
       c.disconnect
     }
@@ -62,9 +46,7 @@ class Connection(val url: String, val user: String, val pass: String) {
     jdbc.get
   }
   def disconnect: Unit = {
-    println("jdbc? " + jdbc.get.isClosed)
     jdbc.foreach(_.close)
-    println("jdbc? " + jdbc.get.isClosed)
     jdbc = None
   }
 }
