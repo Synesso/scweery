@@ -1,14 +1,15 @@
 package au.com.loftinspace.squery
 
 import java.sql.{Statement, DriverManager, Connection => JavaDBConnection, ResultSet}
+import java.sql.Types._
 
 object Connection {
- 
+
 
   class Context123(val c: Connection) {
     var stmt: Option[Statement] = None
     var rs: Option[ResultSet] = None
-    def query(sql: String)(b: List[String] => Unit) = {
+    def query2(sql: String)(b: List[String] => Unit) = {
       executeQuery(sql)
       while (rs.map(_.next).getOrElse(false)) {
         def getString(acc: List[String], i: Int): List[String] = if (i > 0) getString(rs.get.getString(i) :: acc, i - 1) else acc
@@ -24,6 +25,25 @@ object Connection {
     private def close = {
       rs.foreach(_.close)
       stmt.foreach(_.close)
+    }
+
+    def query[F >: Field](sql: String)(b: List[F] => Unit) = {
+      executeQuery(sql)
+      while (rs.map(_.next).getOrElse(false)) {
+        def fieldList = {
+          def nextField(acc: List[F], index: Int): List[F] = {
+            def field: F = rs.get.getMetaData.getColumnType(index) match {
+              case INTEGER => new IntField(rs.get.getInt(index))
+              case DOUBLE => new DoubleField(rs.get.getDouble(index))
+              case _ => new StringField(rs.get.getString(index))
+            }
+            if (index > 0) nextField(field :: acc, index - 1) else acc
+          }
+          nextField(Nil, rs.get.getMetaData.getColumnCount)
+        }
+        b(fieldList)
+      }
+      close
     }
   }
 
