@@ -1,40 +1,25 @@
 package au.com.loftinspace.squery
-
-
-import runtime.{RichDouble, RichInt, RichString}
-
-abstract class Field {
+abstract class Field(val name: String) {
   type T
-  val value: T
+  def value: T
   override def toString = String valueOf value
+  def s = value.asInstanceOf[String]
+  def i = value.asInstanceOf[Int]
+  def d = value.asInstanceOf[Double]
 }
 
-object StringField {
-  implicit def unwrap(f: StringField) = f.value.asInstanceOf[String]
-  implicit def unwrapRich(f: StringField) = new RichString(f.value.asInstanceOf[String])
-}
-class StringField(f: String) extends Field {
+class StringField(name: String, f: String) extends Field(name) {
   type T = String
-  val value: T = f
+  override def value: T = f
 }
 
-object IntField {
-  implicit def unwrap(f: IntField) = f.value.asInstanceOf[Int]
-  implicit def unwrapRich(f: IntField) = new RichInt(f.value.asInstanceOf[Int])
-}
-
-class IntField(f: Int) extends Field {
+class IntField(name: String, f: Int) extends Field(name) {
   type T = Int
-  val value: T = f
+  override def value: T = f
 }
 
-object DoubleField {
-  implicit def unwrap(f: DoubleField) = f.value.asInstanceOf[Double]
-  implicit def unwrapRich(f: DoubleField) = new RichDouble(f.value.asInstanceOf[Double])
-}
-
-class DoubleField(f: Double) extends Field {
+class DoubleField(name: String, f: Double) extends Field(name) {
   type T = Double
-  val value: T = f
+  override def value: T = f
 }
 
