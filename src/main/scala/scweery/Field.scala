@@ -1,4 +1,4 @@
-package au.com.loftinspace.squery
+package scweery
 abstract class Field(val name: String) {
   type T
   def value: T
