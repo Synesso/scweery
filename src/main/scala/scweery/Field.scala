@@ -4,7 +4,11 @@ abstract class Field(val name: String) {
   def value: T
   override def toString = String valueOf value
   def s = value.asInstanceOf[String]
-  def i = value.asInstanceOf[Int]
+  def i = try {
+    value.asInstanceOf[Int]
+  } catch {
+    case e => throw new RuntimeException("Field name is " + name, e) 
+  }
   def d = value.asInstanceOf[Double]
 }
 

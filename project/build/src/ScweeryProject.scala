@@ -1,0 +1,10 @@
+import sbt._
+
+class ScweeryProject(info: ProjectInfo) extends DefaultWebProject(info) {
+  override def useMavenConfigurations = true
+
+  val specsRepo = "Specs Repository" at "http://specs.googlecode.com/svn/maven2/"
+
+  val specs = "org.scala-tools.testing" % "specs" % "1.5.0" % "test->default"
+  val mockito = "org.mockito" % "mockito-core" % "1.7" % "test->default"
+}

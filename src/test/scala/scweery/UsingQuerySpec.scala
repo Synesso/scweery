@@ -1,0 +1,4 @@
+package scweery
+
+
+class UsingQuerySpec
