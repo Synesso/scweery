@@ -3,13 +3,18 @@ package scweery
 import java.sql.{Statement, DriverManager, Connection => JavaDBConnection, ResultSet, ResultSetMetaData}
 import java.sql.Types._
 
+/** Convenience methods allowing the usage of Connection instances */
 object Connection {
-  class Context(val c: Connection) {
+  class Context(val c: Connection) { // todo - private?
     var stmt: Option[Statement] = None
     var rs: Option[ResultSet] = None
 
-    def use(sql: String)(b: Row => Unit): Unit = make(sql)(b)
+    /** Use the connection by executing the given sql and running the subsequent block for each row returned */
+    def use(sql: String)(block: Row => Unit): Unit = make(sql)(block)
 
+    /** Make a List of objects of type T from this connection, by executing the given sql and
+     * running the subsequent block for each row returned.
+     */
     def make[T](sql: String)(b: Row => T): List[T] = {
       executeQuery(sql)
 
@@ -52,26 +57,31 @@ object Connection {
     }
   }
 
-  def using(c: Connection)(b: Context => Unit) = {
-    val context = new Context(c)
+  /** Use a connection and disregard any created objects. */
+  def using(c: Connection)(b: Context => Unit) = making[Unit](c)(b)
+
+  /** Use a connection and make an object of type T. */
+  def making[T](c: Connection)(b: Context => T): T = {
     try {
+      val context = new Context(c)
       b(context)
-    } catch {
-      case e => e.printStackTrace
     } finally {
       c.disconnect
     }
   }
 }
 
+/** Contains the credentials necessary to create a JDBC connection */
 class Connection(val url: String, val user: String, val pass: String) {
   var jdbc: Option[JavaDBConnection] = None
 
+  /** Create the connection and set it as the current state */
   def connect: JavaDBConnection = {
     jdbc = Some(DriverManager.getConnection(url, user, pass))
     jdbc.get
   }
 
+  /** Disconnect the current connection, if it exists */
   def disconnect: Unit = {
     jdbc.foreach(_.close)
     jdbc = None

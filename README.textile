@@ -91,5 +91,5 @@ val drinks = connection.make[Espresso]("select name, cup_of_excellence from cafe
 }
 </pre>
 
-Now you have drinks! It is a List[Espresso] from many well-known Melbourne cafes. Mint as.
+Now you have drinks! It is a _List[Espresso]_ selected from many well-known Melbourne cafes. Mint as.
 
