@@ -7,7 +7,7 @@ h3. But what is it?
 
 Easy. Scweery is a teeny weeny wrapper around JDBC that could be useful to you if you want to muck around with your database in SQL.
 
-For instance, just say you want to view a column in a table as a list of strings, you could do something like this:
+For instance, just say you want to manipulate some data in a table as a list of objects, you could do something like this:
 
 <pre>
 using(petsDB) { connection =>
@@ -33,11 +33,7 @@ h3. How do I build it?
 
 You should use "Simple Build Tool":http://code.google.com/p/simple-build-tool/ - it is the most triumphant of build tools for cool scala projects. When you have it installed, go to the project base and create the _package_. Do you need a hint?
 
-<pre>
-jem@fawkes:~/projects/scweery$ sbt package [enter]
- ...
-_[success] Build completed successfully._
-</pre>
+*sbt package*
 
 How easy was that?
 
@@ -47,7 +43,7 @@ h3. How do I run it?
 You don't run it. You use it.
 
 
-h4. OK, how do I use it?
+h5. OK, how do I use it?
 
 Make sure it's in your classpath. Oh, and import it with:
 
