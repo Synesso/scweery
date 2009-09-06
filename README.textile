@@ -67,6 +67,7 @@ Nothing's happened with the database yet. It's just an object. To open a connect
 using(petsDB) { connection =>
   // connection is open!!
 }
+</pre>
 
 The connection is opened at the start of the block and will be closed automatically when the block is done.
 
