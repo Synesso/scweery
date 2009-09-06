@@ -1,6 +1,6 @@
 import sbt._
 
-class ScweeryProject(info: ProjectInfo) extends DefaultWebProject(info) {
+class ScweeryProject(info: ProjectInfo) extends DefaultProject(info) {
   override def useMavenConfigurations = true
 
   val specsRepo = "Specs Repository" at "http://specs.googlecode.com/svn/maven2/"
