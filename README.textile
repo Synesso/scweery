@@ -1,6 +1,6 @@
 h2. Scweery
 
-Ohai there! Thanks for coming to see Scweery. I am happy to have you here!
+Ohai there! Thanks for coming to see _Scweery_. I am happy to have you here!
 
 
 h3. But what is it?
@@ -11,7 +11,8 @@ For instance, just say you want to view a column in a table as a list of strings
 
 <pre>
 using(petsDB) { connection =>
-  val listOfHedgehogs = connection.make[Hedgehog]("select name, gender from pets where family='erinaceidae' sort by cuteness") { row =>
+  val findHogsQuery = "select name, gender from pets where family='erinaceidae' sort by cuteness" 
+  val listOfHedgehogs = connection.make[Hedgehog](findHogsQuery) { row =>
     new Hedgehog(row.string("name"), row.string("gender"))
   }
 }
@@ -19,7 +20,7 @@ using(petsDB) { connection =>
 
 Scweery will take care of opening the connection, and closing it for you when you're done.
 
-With all of your pet hedgehogs nicely in a row, you'll probably want to:
+With all of your pet hedgehogs nicely lined up in a list, you'll probably want to:
 
 <pre>
   listOfHedgehogs.foreach(_.hug)
@@ -30,12 +31,10 @@ But that's your business.
 
 h3. How do I build it?
 
-You should use "Simple Build Tool":http://code.google.com/p/simple-build-tool/ - it is the most triumphant of build tools for cool scala projects.
-
-When you have it installed, go to the project base and create the package. Do you need a hint?
+You should use "Simple Build Tool":http://code.google.com/p/simple-build-tool/ - it is the most triumphant of build tools for cool scala projects. When you have it installed, go to the project base and create the _package_. Do you need a hint?
 
 <pre>
-jem@fawkes:~/projects/scweery$ *sbt package* [enter]
+jem@fawkes:~/projects/scweery$ sbt package [enter]
  ...
 _[success] Build completed successfully._
 </pre>
