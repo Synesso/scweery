@@ -75,8 +75,7 @@ With one of these crazy mongrels in your namespace you can _use_ it or you can _
 
 <pre>
 connection.use("select facebookid from friends") { row =>
-  // row holds all the secrets to the current row
-  SpamMachine sendFreeGiftTo Friend(row.int(0))
+  SpamMachine sendFreeGiftTo Friend(row.int("facebookid"))
 }
 </pre>
 
@@ -90,7 +89,7 @@ val drinks = connection.make[Espresso]("select name, cup_of_excellence from cafe
   val cupOfExcellence = row.string(1)
   new Espresso(name, cupOfExcellence)
 }
-// drinks is a List[Espresso] from many well-known Melbourne cafes. Mint!
 </pre>
 
+Now you have drinks! It is a List[Espresso] from many well-known Melbourne cafes. Mint as.
 
