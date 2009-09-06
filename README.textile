@@ -2,7 +2,9 @@ h2. Scweery
 
 Ohai there! Thanks for coming to see _Scweery_. I am happy to have you here!
 
-At this point in time Scweery is just a pup. It can only do a few simple tricks and will probably poop on your rug. But please feel free to play with it anyway. And "do let me know of any bad behaviour or new tricks you'd like to see":http://twitter.com/scweery  
+At this point in time Scweery is just a pup. It can only do a few simple tricks and will probably poop on your rug. But please feel free to play with it anyway. And do "let me know":twitter of any "bad behaviour":twitter or "new tricks":twitter you'd like to see.
+
+[twitter]http://twitter.com/scweery
 
 
 h3. But what is it?
@@ -28,12 +30,12 @@ With all of your pet hedgehogs nicely lined up in a list, you'll probably want t
   listOfHedgehogs.foreach(_.hug)
 </pre>
 
-But that's your business.
+... but that's your business.
 
 
 h3. How do I build it?
 
-You should use "Simple Build Tool":http://code.google.com/p/simple-build-tool/ - it is the most triumphant of build tools for cool scala projects. When you have it installed, go to the project base and create the _package_. Do you need a hint?
+You should use "Simple Build Tool":http://code.google.com/p/simple-build-tool/ - it is the most triumphant of build tools for cool Scala projects. When you have it installed, go to the project base and create the _package_. Do you need a hint?
 
 *sbt package*
 
@@ -47,10 +49,47 @@ You don't run it. You use it.
 
 h5. OK, how do I use it?
 
-Make sure it's in your classpath and import it into your scala file (or the "REPL":http://en.wikipedia.org/wiki/REPL) with:
+Make sure both the Scweery jar and the JDBC driver for your database are in your classpath. Then import the Scweery Connection methods into your Scala class/object (or the "REPL":http://en.wikipedia.org/wiki/REPL) with:
 
 <pre>
-import scweery._
+import scweery.Connection._
+</pre>
+
+To work with a database connection, you need to define the JDBC connection details in a happy little container called *Connection*. It needs a JDBC connection string, a username and a password. Yup, a plaintext password.
+
+<pre>
+val petsDB = new Connection("jdbc:vendorx:localhost", "synesso", "e1337^hacksaw")
+</pre>
+
+Nothing's happened with the database yet. It's just an object. To open a connection you first declare that you're _using_ it.
+
+<pre>
+using(petsDB) { connection =>
+  // connection is open!!
+}
+
+The connection is opened at the start of the block and will be closed automatically when the block is done.
+
+With one of these crazy mongrels in your namespace you can _use_ it or you can _make_ lists of stuff with it. Use it when you don't need to create a list of objects.
+
+<pre>
+connection.use("select facebookid from friends") { row =>
+  // row holds all the secrets to the current row
+  SpamMachine sendFreeGiftTo Friend(row.int(0))
+}
+</pre>
+
+In the example above, the spam machine will be asked to send virtual teddy bears, mafia hits or farmyard animals to all of your lucky friends.
+
+If you're more of a functional type, you might want to _make_ a list of things.
+
+<pre>
+val drinks = connection.make[Espresso]("select name, cup_of_excellence from cafes where city='melbourne'") { row =>
+  val name = row.string(0)
+  val cupOfExcellence = row.string(1)
+  new Espresso(name, cupOfExcellence)
+}
+// drinks is a List[Espresso] from many well-known Melbourne cafes. Mint!
 </pre>
 
 
