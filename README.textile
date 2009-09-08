@@ -42,12 +42,7 @@ You should use "Simple Build Tool":http://code.google.com/p/simple-build-tool/ -
 How easy was that?
 
 
-h3. How do I run it?
-
-You don't run it. You use it.
-
-
-h5. OK, how do I use it?
+h3. How do I use it?
 
 Make sure both the Scweery jar and the JDBC driver for your database are in your classpath. Then import the Scweery Connection methods into your Scala class/object (or the "REPL":http://en.wikipedia.org/wiki/REPL) with:
 
@@ -65,7 +60,15 @@ Nothing's happened with the database yet. It's just an object. To open a connect
 
 <pre>
 using(petsDB) { connection =>
-  // connection is open!!
+  // connection is open!
+}
+</pre>
+
+You can also use the database to make things. You can, as long as you know what it is you want to make. That would look more like this:
+
+<pre>
+making[FurryFriend](petsDB) { connection =>
+  // connection is open and ready for you to make FurryFriends!
 }
 </pre>
 
@@ -93,3 +96,8 @@ val drinks = connection.make[Espresso]("select name, cup_of_excellence from cafe
 
 Now you have drinks! It is a _List[Espresso]_ selected from many well-known Melbourne cafes. Mint as.
 
+h3. There's two different levels of making and using. Why?
+
+If you want to use a database, you're _using_ it. But if you want to make something with your database, try _making_ with it.
+
+When you're inside the _using_ or _making_ block and you've got your mitts on a connection, then you can pass some SQL to that connection in order to _use_ it or to _make_ a list of things with it.
