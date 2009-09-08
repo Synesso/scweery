@@ -31,6 +31,7 @@ object Connection {
               def field: Field = rs.get.getMetaData.getColumnType(index) match {
                 case INTEGER => new IntField(names(index - 1), rs.get.getInt(index))
                 case DOUBLE => new DoubleField(names(index - 1), rs.get.getDouble(index))
+                case TIMESTAMP => new DateField(names(index - 1), rs.get.getDate(index))
                 case _ => new StringField(names(index - 1), rs.get.getString(index))
               }
               if (index > 0) nextField(field :: acc, index - 1) else acc

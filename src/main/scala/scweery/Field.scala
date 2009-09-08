@@ -1,4 +1,7 @@
 package scweery
+
+import java.util.Date
+
 abstract class Field(val name: String) {
   type T
   def value: T
@@ -10,6 +13,7 @@ abstract class Field(val name: String) {
     case e => throw new RuntimeException("Field name is " + name, e) 
   }
   def d = value.asInstanceOf[Double]
+  def date = value.asInstanceOf[Date]
 }
 
 class StringField(name: String, f: String) extends Field(name) {
@@ -24,6 +28,11 @@ class IntField(name: String, f: Int) extends Field(name) {
 
 class DoubleField(name: String, f: Double) extends Field(name) {
   type T = Double
+  override def value: T = f
+}
+
+class DateField(name: String, f: Date) extends Field(name) {
+  type T = Date
   override def value: T = f
 }
 

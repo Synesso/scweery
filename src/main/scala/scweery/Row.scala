@@ -28,6 +28,11 @@ class Row(val rownum: Int, val fields: List[Field]) {
   /** The value of column with the given name, cast to a Double */
   def double(name: String) = map(name).d
 
+  /** The value of column with index i, cast to a Date */
+  def date(i: Int) = fields(i).date
+  /** The value of column with the given name, cast to a Date */
+  def date(name: String) = map(name).date
+
   /** The value of column with index i */
   def apply(i: Int) = anys(i)
   /** The value of column with the given name */
