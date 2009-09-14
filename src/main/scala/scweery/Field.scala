@@ -7,11 +7,7 @@ abstract class Field(val name: String) {
   def value: T
   override def toString = String valueOf value
   def s = value.asInstanceOf[String]
-  def i = try {
-    value.asInstanceOf[Int]
-  } catch {
-    case e => throw new RuntimeException("Field name is " + name, e) 
-  }
+  def i = value.asInstanceOf[Int]
   def d = value.asInstanceOf[Double]
   def date = value.asInstanceOf[Date]
 }
