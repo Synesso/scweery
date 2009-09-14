@@ -49,7 +49,7 @@ To work with a database connection, you need to define the JDBC connection detai
 
 ### Using a connection
 
-Nothing's happened with the database yet. It's just an object. To open a connection you first declare that you're _using_ it.
+Nothing's happened with the database yet. It's just a bean. To open a connection you first declare that you are goin to _use_ it.
 
 <pre>
 use(petsDB) { connection =>
@@ -65,7 +65,7 @@ You can also use the database to make things. You can, as long as you know what 
 
 <pre>
 infer[FurryFriend](petsDB) { connection =>
-  // connection is open and ready for you to make FurryFriends!
+  // connection is open and ready for you to make a FurryFriend!
 }
 </pre>
 
@@ -81,7 +81,7 @@ use(friendsDB) { connection =>
 }
 </pre>
 
-In the example above, the spam machine will be asked to send virtual teddy bears, mafia hits or farmyard animals to all of your lucky friends.
+In the example above, the spam machine will be asked to send virtual teddy bears, mafia hits or farmyard animals to all of your "lucky" friends.
 
 ### Invoking the SQL to infer a list of objects
 
@@ -98,7 +98,7 @@ infer[Tray[Espresso]](cafeDB) { connection =>
 }
 </pre>
 
-Now you have drinks! It is a _Tray_ of _Espresso_s selected from many well-known Melbourne cafes. Mint as.
+Now you have drinks! It is a _Tray_ of _Espresso_ drinks selected from many well-known Melbourne cafes. Mint as.
 
 
 ## Halp! It doesn't do what I want (or what it should).
