@@ -20,7 +20,7 @@ using(petsDB) { connection =>
 }
 </pre>
 
-Scweery will take care of opening the connection, and closing it for you when you're done. Removing the hedgehog quills from your problem. 
+Scweery will take care of opening the connection, and closing it for you when you're done. Removing the hedgehog quills from your flesh is your problem. 
 
 
 ## How do I build it?
@@ -66,8 +66,10 @@ The connection is opened at the start of the block and will be closed automatica
 With one of these crazy mongrels in your namespace you can _use_ it or you can _infer_ lists of stuff with it. Use it when you don't need to create a list of objects.
 
 <pre>
-connection.use("select facebookid from friends") { row =>
-  SpamMachine sendFreeGiftTo Friend(row.int("facebookid"))
+use(friendsDB) { connection =>
+  connection.use("select facebookid from friends") { row =>
+    SpamMachine sendFreeGiftTo Friend(row.int("facebookid"))
+  }
 }
 </pre>
 
@@ -76,14 +78,17 @@ In the example above, the spam machine will be asked to send virtual teddy bears
 If you're more of a functional type, you might want to _infer_ a list of things.
 
 <pre>
-val drinks = connection.inferListOf[Espresso]("select name, cup_of_excellence from cafes where city='melbourne'") { row =>
-  val name = row.string(0)
-  val cupOfExcellence = row.string(1)
-  new Espresso(name, cupOfExcellence)
+infer[Tray[Espresso]](cafeDB) { connection =>
+  val drinks = connection.inferListOf[Espresso]("select name, cup_of_excellence from cafes where city='melbourne'") { row =>
+    val name = row.string(0)
+    val cupOfExcellence = row.string(1)
+    new Espresso(name, cupOfExcellence)
+  }
+  new Tray(drinks)
 }
 </pre>
 
-Now you have drinks! It is a _List[Espresso]_ selected from many well-known Melbourne cafes. Mint as.
+Now you have drinks! It is a _Tray_ of _Espresso_s selected from many well-known Melbourne cafes. Mint as.
 
 
 ## Halp! It doesn't do what I want (or what it should).
