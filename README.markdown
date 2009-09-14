@@ -41,9 +41,13 @@ import scweery._  // Connection
 import Scweery._  // use & infer methods
 </pre>
 
+### Defining a DB connection
+
 To work with a database connection, you need to define the JDBC connection details in a happy little container called *Connection*. It needs a JDBC connection string, a username and a password. Yup, a plaintext password.
 
 <pre>val petsDB = new Connection("jdbc:vendorx:localhost", "synesso", "e1337^hacksaw")</pre>
+
+### Using a connection
 
 Nothing's happened with the database yet. It's just an object. To open a connection you first declare that you're _using_ it.
 
@@ -53,6 +57,10 @@ use(petsDB) { connection =>
 }
 </pre>
 
+The connection is opened at the start of the block and will be closed automatically when the block is done.
+
+### Infering an object from a connection
+
 You can also use the database to make things. You can, as long as you know what it is you want to make. That would look more like this:
 
 <pre>
@@ -61,7 +69,7 @@ infer[FurryFriend](petsDB) { connection =>
 }
 </pre>
 
-The connection is opened at the start of the block and will be closed automatically when the block is done.
+### Invoking the SQL 
 
 With one of these crazy mongrels in your namespace you can _use_ it or you can _infer_ lists of stuff with it. Use it when you don't need to create a list of objects.
 
@@ -74,6 +82,8 @@ use(friendsDB) { connection =>
 </pre>
 
 In the example above, the spam machine will be asked to send virtual teddy bears, mafia hits or farmyard animals to all of your lucky friends.
+
+### Invoking the SQL to infer a list of objects
 
 If you're more of a functional type, you might want to _infer_ a list of things.
 
