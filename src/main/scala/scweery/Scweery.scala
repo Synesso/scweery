@@ -42,8 +42,10 @@ object Scweery {
           if (resultSet.next) {
             def row = {
               def nextField(acc: List[Field], index: Int): List[Field] = {
-                def field: Field = resultSet.getMetaData.getColumnType(index) match {
+                val metaData = resultSet.getMetaData
+                def field: Field = metaData.getColumnType(index) match {
                   case INTEGER => new IntField(names(index - 1), resultSet.getInt(index))
+                  case DOUBLE if metaData.isCurrency(index) => new StringField(names(index - 1), resultSet.getString(index))
                   case DOUBLE => new DoubleField(names(index - 1), resultSet.getDouble(index))
                   case TIMESTAMP => new DateField(names(index - 1), resultSet.getDate(index))
                   case _ => new StringField(names(index - 1), resultSet.getString(index))
