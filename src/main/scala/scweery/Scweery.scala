@@ -64,5 +64,15 @@ object Scweery {
         statement.close
       }
     }
+
+    // todo - this is a temporary haxxor.
+    def update(sql: String) = {
+      val statement = jdbcConnection.createStatement
+      try {
+        statement.executeUpdate(sql)
+      } finally {
+        statement.close
+      }
+    }
   }
 }
