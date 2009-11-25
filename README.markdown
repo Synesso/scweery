@@ -12,7 +12,7 @@ For instance, just say you want to manipulate some data in a table as a list of 
 
 <pre>
 using(petsDB) { connection =>
-  val findHogsQuery = "select name, gender from pets where family='erinaceidae' sort by cuteness" 
+  val findHogsQuery = "select name, gender from pets where family='erinaceidae' order by cuteness" 
   val listOfHedgehogs = connection.inferListOf[Hedgehog](findHogsQuery) { row =>
     new Hedgehog(row.string("name"), row.string("gender"))
   }
@@ -29,6 +29,16 @@ You should use [Simple Build Tool](http://code.google.com/p/simple-build-tool/) 
 
 <pre>
 $ sbt package
+</pre>
+
+
+## Is there a repository?
+
+Rather than build it, you can just fetch it from the repo. Use the following magic in your [SBT](http://code.google.com/p/simple-build-tool/) project definition:
+
+<pre>
+  val badgerhunt = "Scweery Repo" at "http://github.com/Synesso/scweery/raw/master/repo/"
+  val scweery = "net.badgerhunt" % "scweery" % "0.1.2"
 </pre>
 
 
