@@ -2,7 +2,7 @@
 
 Ohai there! Thanks for coming to see _Scweery_. I am happy to have you here!
 
-At this point in time Scweery is just a pup. It can only do a few simple tricks and will probably poop on your rug. But please feel free to play with it anyway. And do [let me know](http://twitter.com/scweery) of any bad behaviour new tricks you'd like to see.
+Scweery was a tiny plaything of mine back in 2009 when I was first getting into Scala. It was only ever just a pup. It can only do a few simple tricks and will probably poop on your rug. But please feel free to play with it anyway. And do [let me know](http://twitter.com/scweery) what you think.
 
 ## But what is it?
 
