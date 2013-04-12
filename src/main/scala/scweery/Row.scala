@@ -9,9 +9,9 @@ class Row(val rownum: Int, val fields: List[Field]) {
   /** All columns in this row returned in order, as instances of Any */
   lazy val anys: List[Any] = fields.map(_.value)
   /** All columns in this row returned as a map from column name -> Any */
-  lazy val map: Map[String, Field] = fields.foldLeft(Map.empty[String, Field]) {(m, n) => m(n.name) = n}
+  lazy val map: Map[String, Field] = fields.foldLeft(Map.empty[String, Field]) {(m, n) => m + (n.name -> n)}
   /** All columns in this row returned as a map from column name -> String */
-  lazy val mapStrings: Map[String, String] = fields.foldLeft(Map.empty[String, String]) {(m, n) => m(n.name) = n.toString}
+  lazy val mapStrings: Map[String, String] = fields.foldLeft(Map.empty[String, String]) {(m, n) => m + (n.name -> n.toString )}
 
   /** The value of column with index i, cast to a String */
   def string(i: Int) = fields(i).s
